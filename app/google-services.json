@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "805005764072",
+    "firebase_url": "https://brookies-11e26.firebaseio.com",
+    "project_id": "brookies-11e26",
+    "storage_bucket": "brookies-11e26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805005764072:android:99226302b0729e75",
+        "android_client_info": {
+          "package_name": "brookies.iut.com.brookies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805005764072-e5k7l53eh0brl8jqh3jlpr316k8ni0o3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "brookies.iut.com.brookies",
+            "certificate_hash": "ea0748b553720805d7a825be873d5f904bc83455"
+          }
+        },
+        {
+          "client_id": "805005764072-79ppjseaueddikd2i4b3f13aegheh3fg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4maNV8lGgHkPlbr7wKoG6c3i8dNy4oVU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805005764072-79ppjseaueddikd2i4b3f13aegheh3fg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
