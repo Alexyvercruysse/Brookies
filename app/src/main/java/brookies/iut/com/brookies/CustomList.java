@@ -6,8 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.github.siyamed.shapeimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,10 @@ public class CustomList extends ArrayAdapter<User> {
     private final Activity context;
     ArrayList<User> userList;
     public CustomList(@NonNull Activity context,  @NonNull List<User> users) {
-        super(context, R.layout.activity_user_list, users);
+        super(context, R.layout.list_single, users);
         this.context = context;
         this.userList = (ArrayList<User>) users;
+        System.out.println("USERS: "+users.size());
     }
 
 
@@ -34,9 +36,10 @@ public class CustomList extends ArrayAdapter<User> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView=null;
 
-        rowView = inflater.inflate(R.layout.list_single, null, true);
+        System.out.println("POSITION: "+position);
+        rowView = inflater.inflate(R.layout.list_single, parent, false);
 
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.imgProfilePicture);
+        CircularImageView imageView = (CircularImageView) rowView.findViewById(R.id.imgProfilePicture);
 
         TextView txtUserName = (TextView) rowView.findViewById(R.id.txtUserName);
         TextView txtUserDescrition = (TextView) rowView.findViewById(R.id.txtDescription);

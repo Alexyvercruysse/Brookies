@@ -46,6 +46,11 @@ public class LoginActivity extends AppCompatActivity implements
 
         mAuth = FirebaseAuth.getInstance(); // Connexion FireBase
 
+        //TEST CODE TO REMOVE
+        Intent intent = new Intent(this, UserListActivity.class);
+        startActivity(intent);
+
+        //END TEST CODE
 
         // Listener De la connexion si la personne se connecte ou se deconnecte
         mAuthListener = new FirebaseAuth.AuthStateListener() {

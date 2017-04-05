@@ -21,7 +21,7 @@ public class UserListActivity extends AppCompatActivity {
 
         ArrayList<User> users = new ArrayList<>();
         users.add(new User("Jean","Pierre","Coucou"));
-        users.add(new User("Martin","Bernard","Hello"));
+        users.add(new User("Martin","Bernard","HelloMMMMMMMMMMMMWWWWWWWWHelloMMMMMMMMMMMMWWWWWWWWHelloMMMMMMMMMMMMWWWWWWWWHelloMMMMMMMMMMMMWWWWWWWWHelloMMMMMMMMMMMMWWWWWWWWHelloMMMMMMMMMMMMWWWWWWWWHelloMMMMMMMMMMMMWWWWWWWWHelloMMMMMMMMMMMMWWWWWWWWHelloMMMMMMMMMMMMWWWWWWWW"));
 
         CustomList adapter = new CustomList(this,users);
         ListView list =(ListView)findViewById(R.id.listViewUsers);
