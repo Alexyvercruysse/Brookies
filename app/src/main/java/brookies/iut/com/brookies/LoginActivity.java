@@ -73,8 +73,8 @@ public class LoginActivity extends AppCompatActivity implements
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     userId = user.getUid();
-                    Log.d(TAG,user.getProviderData().get(1).getProviderId());
-                    updateUI(user.getProviderData().get(1).getProviderId());
+
+
 
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -126,18 +126,6 @@ public class LoginActivity extends AppCompatActivity implements
 
     }
 
-    private void updateUI(String providerId) {
-        if (providerId.equals("google.com")){
-
-        }
-        if (providerId.equals("facebook.com")){
-
-        }
-        else {
-
-        }
-    }
-
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -146,6 +134,8 @@ public class LoginActivity extends AppCompatActivity implements
     private void writeNewUser(String userId, String firstName, String lastName, String email, String gender, int age, String birthdate, String description, String hobbies, List<Picture> pictureList) {
         User user = new User(firstName, lastName, email, gender, age, birthdate, description, hobbies,pictureList);
         mDatabase.child("user").child(userId).setValue(user);
+        Intent intent = new Intent(LoginActivity.this,EditProfileActivity.class);
+        startActivity(intent);
     }
 
 
