@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="salmon">#ff7a68</color>
+    <color name="white">#f8f8f7</color>
+    <color name="charcoal_grey">#3f464a</color>
+    <color name="red_pink">#f0455f</color>
+    <color name="watermelon">#ff455f</color>
 </resources>

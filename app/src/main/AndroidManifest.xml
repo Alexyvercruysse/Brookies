@@ -24,7 +24,8 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".LoginEmailActivity" />
-        <activity android:name=".UserListActivity"></activity>
+        <activity android:name=".UserListActivity" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>
