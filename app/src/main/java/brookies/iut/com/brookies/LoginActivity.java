@@ -61,8 +61,7 @@ public class LoginActivity extends AppCompatActivity implements
         mAuth = FirebaseAuth.getInstance(); // Connexion FireBase
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        Intent intent = new Intent(this,UserListActivity.class);
-        startActivity(intent);
+
 
         loginButtonGoogle = (Button) findViewById(R.id.login_button_google);
         loginButtonFacebbok = (LoginButton) findViewById(R.id.login_button_facebook);
@@ -86,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements
         };
 
 
+       
 
         loginButtonGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
