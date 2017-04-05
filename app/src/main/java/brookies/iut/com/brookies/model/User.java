@@ -11,17 +11,13 @@ import java.util.List;
 
 public class User {
 
-    private enum Sexe {
-        MALE,
-        FEMALE
-    }
 
-    private String ID;
     private String firstname;
     private String lastname;
-    private Sexe sexe;
+    private String email;
+    private String sexe;
     private int age;
-    private Date BirthDay;
+    private String birthdate;
     private String description;
     private String hobbies;
     private List<Picture> pictures;
@@ -30,20 +26,16 @@ public class User {
     public User() {
     }
 
-    public User(String ID, String firstname, String lastname, Sexe sexe, int age, Date birthDay, String description, String hobbies, List<Picture> pictures) {
-        this.ID = ID;
+    public User(String firstname, String lastname, String email, String sexe, int age, String birthdate, String description, String hobbies, List<Picture> pictures) {
         this.firstname = firstname;
         this.lastname = lastname;
+        this.email = email;
         this.sexe = sexe;
         this.age = age;
-        BirthDay = birthDay;
+        this.birthdate = birthdate;
         this.description = description;
         this.hobbies = hobbies;
         this.pictures = pictures;
-    }
-
-    public String getID() {
-        return ID;
     }
 
     public String getFirstname() {
@@ -62,11 +54,19 @@ public class User {
         this.lastname = lastname;
     }
 
-    public Sexe getSexe() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSexe() {
         return sexe;
     }
 
-    public void setSexe(Sexe sexe) {
+    public void setSexe(String sexe) {
         this.sexe = sexe;
     }
 
@@ -74,12 +74,12 @@ public class User {
         return age;
     }
 
-    public Date getBirthDay() {
-        return BirthDay;
+    public String getBirthdate() {
+        return birthdate;
     }
 
-    public void setBirthDay(Date birthDay) {
-        BirthDay = birthDay;
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
     }
 
     public String getDescription() {
