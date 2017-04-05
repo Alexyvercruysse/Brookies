@@ -8,21 +8,15 @@ import java.net.URL;
 
 public class Picture {
 
-    private int ID;
     private String name;
-    private URL url;
+    private String url;
 
     public Picture() {
     }
 
-    public Picture(int ID, String name, URL url) {
-        this.ID = ID;
+    public Picture(String name, String url) {
         this.name = name;
         this.url = url;
-    }
-
-    public int getID() {
-        return ID;
     }
 
 
@@ -34,7 +28,7 @@ public class Picture {
         this.name = name;
     }
 
-    public URL getUrl() {
+    public String getUrl() {
         return url;
     }
 
