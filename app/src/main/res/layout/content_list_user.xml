@@ -12,7 +12,7 @@
     >
 
     <ListView
-        android:id="@+id/listViewEnseignes"
+        android:id="@+id/listViewUsers"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

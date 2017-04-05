@@ -1,7 +1,5 @@
 package brookies.iut.com.brookies.model;
 
-import android.media.Image;
-
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +38,12 @@ public class User {
         this.description = description;
         this.hobbies = hobbies;
         this.pictures = pictures;
+    }
+
+    public User(String firstname, String lastname, String description) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.description = description;
     }
 
     public String getID() {
