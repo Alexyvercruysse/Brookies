@@ -13,6 +13,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -32,6 +34,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +59,8 @@ public class LoginActivity extends AppCompatActivity implements
     private LoginButton loginButtonFacebbok;
     private DatabaseReference mDatabase;
     private String userId;
+    private GoogleSignInAccount account;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +80,13 @@ public class LoginActivity extends AppCompatActivity implements
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     userId = user.getUid();
-
-
-
+                    if (account != null) {
+                        List<Picture> pictureList = new ArrayList<>();
+                        pictureList.add(new Picture(account.getGivenName() + "_photo", account.getPhotoUrl().toString()));
+                        writeNewUser(userId, account.getGivenName(), account.getFamilyName(), account.getEmail(),
+                                "", 0, "", "", "",
+                                pictureList);
+                    }
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
@@ -101,6 +112,26 @@ public class LoginActivity extends AppCompatActivity implements
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+
+                                // Application code
+                                try {
+                                    String email = object.getString("email");
+                                    String birthday = object.getString("birthday");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
 
             }
 
@@ -135,6 +166,7 @@ public class LoginActivity extends AppCompatActivity implements
         User user = new User(firstName, lastName, email, gender, age, birthdate, description, hobbies,pictureList);
         mDatabase.child("user").child(userId).setValue(user);
         Intent intent = new Intent(LoginActivity.this,EditProfileActivity.class);
+        intent.putExtra("userId",userId);
         startActivity(intent);
     }
 
@@ -186,13 +218,8 @@ public class LoginActivity extends AppCompatActivity implements
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = result.getSignInAccount();
+                account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-                List<Picture> pictureList = new ArrayList<>();
-                pictureList.add(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
-                writeNewUser(userId,account.getGivenName(),account.getFamilyName(),account.getEmail(),
-                        "",0,"","","",
-                        pictureList);
             } else {
                 Toast.makeText(this,"Failed",Toast.LENGTH_LONG);
             }
