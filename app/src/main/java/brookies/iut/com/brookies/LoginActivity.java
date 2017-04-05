@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity implements
     private LoginButton loginButtonFacebbok;
     private DatabaseReference mDatabase;
     private String userId;
+    private GoogleSignInAccount account;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +74,11 @@ public class LoginActivity extends AppCompatActivity implements
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     userId = user.getUid();
-
-
+                    List<Picture> pictureList = new ArrayList<>();
+                    pictureList.add(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
+                    writeNewUser(userId,account.getGivenName(),account.getFamilyName(),account.getEmail(),
+                            "",0,"","","",
+                            pictureList);
 
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -134,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements
     private void writeNewUser(String userId, String firstName, String lastName, String email, String gender, int age, String birthdate, String description, String hobbies, List<Picture> pictureList) {
         User user = new User(firstName, lastName, email, gender, age, birthdate, description, hobbies,pictureList);
         mDatabase.child("user").child(userId).setValue(user);
-        Intent intent = new Intent(LoginActivity.this,EditProfileActivity.class);
+        Intent intent = new Intent(LoginActivity.this,ChatActivity.class);
         startActivity(intent);
     }
 
@@ -186,13 +190,9 @@ public class LoginActivity extends AppCompatActivity implements
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = result.getSignInAccount();
+                account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-                List<Picture> pictureList = new ArrayList<>();
-                pictureList.add(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
-                writeNewUser(userId,account.getGivenName(),account.getFamilyName(),account.getEmail(),
-                        "",0,"","","",
-                        pictureList);
+
             } else {
                 Toast.makeText(this,"Failed",Toast.LENGTH_LONG);
             }
