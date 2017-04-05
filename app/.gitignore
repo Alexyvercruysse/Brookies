@@ -73,6 +73,7 @@ obj/
 *.iws
 /out/
 # User-specific configurations
+app/app.iml
 .idea/libraries/
 .idea/.name
 .idea/compiler.xml
