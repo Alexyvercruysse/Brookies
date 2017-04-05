@@ -1,0 +1,51 @@
+package brookies.iut.com.brookies;
+
+import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import brookies.iut.com.brookies.model.User;
+
+/**
+ * Created by iem on 05/04/2017.
+ */
+
+public class CustomList extends ArrayAdapter<User> {
+
+    private final Activity context;
+    ArrayList<User> userList;
+    public CustomList(@NonNull Activity context,  @NonNull List<User> users) {
+        super(context, R.layout.activity_user_list, users);
+        this.context = context;
+        this.userList = (ArrayList<User>) users;
+    }
+
+
+    @Override
+    public View getView(int position, View view, ViewGroup parent) {
+        LayoutInflater inflater = context.getLayoutInflater();
+        View rowView=null;
+
+        rowView = inflater.inflate(R.layout.list_single, null, true);
+
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.imgProfilePicture);
+
+        TextView txtUserName = (TextView) rowView.findViewById(R.id.txtUserName);
+        TextView txtUserDescrition = (TextView) rowView.findViewById(R.id.txtDescription);
+
+        imageView.setImageResource(R.drawable.profile);
+        txtUserName.setText(userList.get(position).getFirstname() +" " + userList.get(position).getLastname() );
+        txtUserDescrition.setText(userList.get(position).getDescription());
+
+        return rowView;
+    }
+
+}

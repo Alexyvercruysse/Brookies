@@ -9,12 +9,12 @@ import java.net.URL;
 public class Picture {
 
     private String name;
-    private URL url;
+    private String url;
 
     public Picture() {
     }
 
-    public Picture(String name, URL url) {
+    public Picture(String name, String url) {
         this.name = name;
         this.url = url;
     }
@@ -27,7 +27,7 @@ public class Picture {
         this.name = name;
     }
 
-    public URL getUrl() {
+    public String getUrl() {
         return url;
     }
 
