@@ -1,12 +1,16 @@
 package brookies.iut.com.brookies;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,17 +41,22 @@ public class ProfileActivity extends AppCompatActivity {
     private String userId;
     private TextView tvNameProfile;
     private CircleImageView profileImage;
+    private SwitchCompat manSwitch;
+    private SwitchCompat womanSwitch;
+    private User user;
+    private FloatingActionButton editProfileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-
+        manSwitch = (SwitchCompat) findViewById(R.id.man_switch);
+        womanSwitch = (SwitchCompat) findViewById(R.id.woman_switch);
         tvNameProfile = (TextView) findViewById(R.id.tvName);
         mAuth = FirebaseAuth.getInstance(); // Connexion FireBase
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        editProfileButton = (FloatingActionButton) findViewById(R.id.editProfileFloatingButton);
         profileImage = (CircleImageView) findViewById(R.id.profile_image);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -63,23 +72,16 @@ public class ProfileActivity extends AppCompatActivity {
         };
 
 
-        mDatabase.child("user/PSgOMpkputeiPpRp4ppWsSAJjcM2").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("user/uNvif03dK6Y3o7km21kmJ23msPG2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
+                user = snapshot.getValue(User.class);
                 Log.d("", user.getFirstname());
-                Bitmap bitmap = null;
                 tvNameProfile.setText(user.getFirstname() + " " + user.getLastname());
-                String urlPath = user.getPictures().get(0).getUrl();
-
-                new LoadProfilePictureTask().execute(urlPath);
-
-                //  bitmap = getBitmapFromURL(urlPath);
-
-                //   profileImage.setImageBitmap(bitmap);
-
-
-                // Picasso.with(getApplication()).load(user.getPictures().get(0).getUrl()).into(image_1);
+                String urlPictureProfilePath = user.getPictures().get(0).getUrl();
+                manSwitch.setChecked(user.getLikeMen());
+                womanSwitch.setChecked(user.getLikeWomen());
+                new LoadProfilePictureTask().execute(urlPictureProfilePath);
             }
 
             @Override
@@ -87,6 +89,14 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
 
+        });
+
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Intent editProfile = new Intent(ProfileActivity.this,EditProfileActivity.class);
+              //  startActivity(editProfile);
+            }
         });
 
     }

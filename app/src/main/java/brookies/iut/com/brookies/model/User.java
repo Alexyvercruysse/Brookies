@@ -1,8 +1,6 @@
 package brookies.iut.com.brookies.model;
 
-import android.media.Image;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,12 +19,15 @@ public class User {
     private String description;
     private String hobbies;
     private List<Picture> pictures;
+    private Boolean isPremium;
+    private Boolean likeMen;
+    private Boolean likeWomen;
 
 
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String sexe, int age, String birthdate, String description, String hobbies, List<Picture> pictures) {
+    public User(String firstname, String lastname, String email, String sexe, int age, String birthdate, String description, String hobbies, List<Picture> pictures,Boolean isPremium,Boolean likeMen,Boolean likeWomen) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -36,6 +37,9 @@ public class User {
         this.description = description;
         this.hobbies = hobbies;
         this.pictures = pictures;
+        this.isPremium = isPremium;
+        this.likeMen = likeMen;
+        this.likeWomen = likeWomen;
     }
 
     public String getFirstname() {
@@ -108,5 +112,29 @@ public class User {
 
     public void deletePicture(Picture picture) {
         this.pictures.remove(picture);
+    }
+
+    public Boolean getIsPremium() {
+        return isPremium;
+    }
+
+    public void setIsPremium(Boolean isPremium) {
+        this.isPremium = isPremium;
+    }
+
+    public Boolean getLikeMen() {
+        return likeMen;
+    }
+
+    public void setLikeMen(Boolean likeMen) {
+        this.likeMen = likeMen;
+    }
+
+    public Boolean getLikeWomen() {
+        return likeWomen;
+    }
+
+    public void setLikeWomen(Boolean likeWomen) {
+        this.likeWomen = likeWomen;
     }
 }

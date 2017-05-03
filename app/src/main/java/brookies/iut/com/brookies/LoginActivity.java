@@ -59,10 +59,14 @@ public class LoginActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance(); // Connexion FireBase
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        Intent intent = new Intent(LoginActivity.this,ProfileActivity.class);
+        startActivity(intent);
         loginButtonGoogle = (Button) findViewById(R.id.login_button_google);
         loginButtonFacebbok = (LoginButton) findViewById(R.id.login_button_facebook);
+
 
         // Listener De connexion
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -142,8 +146,8 @@ public class LoginActivity extends AppCompatActivity implements
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void writeNewUser(String userId, String firstName, String lastName, String email, String gender, int age, String birthdate, String description, String hobbies, List<Picture> pictureList) {
-        User user = new User(firstName, lastName, email, gender, age, birthdate, description, hobbies,pictureList);
+    private void writeNewUser(String userId, String firstName, String lastName, String email, String gender, int age, String birthdate, String description, String hobbies, List<Picture> pictureList,Boolean isPremium,Boolean likeMen,Boolean likeWomen) {
+        User user = new User(firstName, lastName, email, gender, age, birthdate, description, hobbies,pictureList, isPremium,likeMen,likeWomen);
         mDatabase.child("user").child(userId).setValue(user);
     }
 
@@ -201,7 +205,7 @@ public class LoginActivity extends AppCompatActivity implements
                 pictureList.add(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
                 writeNewUser(userId,account.getGivenName(),account.getFamilyName(),account.getEmail(),
                         "",0,"","","",
-                        pictureList);
+                        pictureList,false,true,true);
             } else {
                 Toast.makeText(this,"Failed",Toast.LENGTH_LONG);
             }
