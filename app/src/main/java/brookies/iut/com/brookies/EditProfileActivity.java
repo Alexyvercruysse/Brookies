@@ -11,9 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -52,6 +54,8 @@ public class EditProfileActivity extends AppCompatActivity {
     CheckBox checkBoxMale,checkBoxFemale;
     ImageView image_1,image_2,image_3;
     EditText firstName,lastName,birthdate;
+    Bitmap image1Bitmap,image2Bitmap,image3Bitmap;
+    FrameLayout progressBarHolder;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "EditProfileActivity";
@@ -60,15 +64,19 @@ public class EditProfileActivity extends AppCompatActivity {
     private  static final int PICK_PHOTO_FOR_1 = 1001;
     private  static final int PICK_PHOTO_FOR_2 = 1002;
     private  static final int PICK_PHOTO_FOR_3 = 1003;
-    private Boolean image2,image3 = false;
     private User user;
+    private StorageReference storageRef;
+    private FirebaseStorage storage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+        progressBarHolder = (FrameLayout) findViewById(R.id.progressBarHolder);
+        progressBarHolder.setVisibility(View.GONE);
         userId = getIntent().getStringExtra("userId");
         mAuth = FirebaseAuth.getInstance();
-        final FirebaseStorage storage = FirebaseStorage.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -88,7 +96,25 @@ public class EditProfileActivity extends AppCompatActivity {
                 user = snapshot.getValue(User.class);
                 lastName.setText(user.getLastname());
                 firstName.setText(user.getFirstname());
+                if (user.getSexe() != null && user.getSexe().equals("")) {
+                    radioButtonFemale.setChecked(user.getSexe() == "female" ? true : false);
+                    radioButtonMale.setChecked(user.getSexe() == "male" ? true : false);
+                }
+                if (user.getLikeMen() != null || user.getLikeWomen() != null){
+                    checkBoxFemale.setChecked(user.getLikeWomen());
+                    checkBoxMale.setChecked(user.getLikeMen());
+                }
+                if (user.getBirthdate() != null && !user.getBirthdate().equals("")){
+                    birthdate.setText(user.getBirthdate());
+                }
                 Picasso.with(getApplication()).load(user.getPictures().get(0).getUrl()).into(image_1);
+                if (user.getPictures().size() >= 2) {
+                    Picasso.with(getApplication()).load(user.getPictures().get(1).getUrl()).into(image_2);
+                }
+                if (user.getPictures().size() >= 3) {
+                    Picasso.with(getApplication()).load(user.getPictures().get(2).getUrl()).into(image_3);
+                }
+
             }
 
             @Override
@@ -135,6 +161,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
                 }
                 else {
+                    progressBarHolder.setVisibility(View.VISIBLE);
                     firstName.setError(null);
                     lastName.setError(null);
                     birthdate.setError(null);
@@ -146,50 +173,53 @@ public class EditProfileActivity extends AppCompatActivity {
                     user.setBirthdate(birthdate.getText().toString());
                     user.setLikeMen(checkBoxMale.isChecked() ? true : false);
                     user.setLikeWomen(checkBoxFemale.isChecked() ? true : false);
-                    user.addPicture(new Picture("image1.jpg",userId+"/image1.jpg"));
-                    if (image2){
-                        user.addPicture(new Picture("image2.jpg",userId+"/image2.jpg"));
+
+                    if (image1Bitmap == null && image2Bitmap == null && image3Bitmap == null ){
+                        mDatabase.child("user").child(userId).setValue(user);
+                        progressBarHolder.setVisibility(View.GONE);
+                        Intent intent = new Intent(EditProfileActivity.this, EditProfile2Activity.class);
+                        intent.putExtra("userId", userId);
+                        startActivity(intent);
                     }
-                    if (image3){
-                        user.addPicture(new Picture("image3.jpg",userId+"image3.jpg"));
+
+                    if (image1Bitmap != null) {
+                        StorageReference image1 = storageRef.child(userId + "/image1.jpg");
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        image1Bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+
+                        byte[] data = baos.toByteArray();
+                        UploadTask uploadTask = image1.putBytes(data);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                Log.e(TAG, "FAILED UPLOAD image 1 : " + exception.getMessage());
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                String url = downloadUrl.toString();
+                                user.setPicturesAtIndex(0, new Picture("image1.jpg", url));
+                                if (image2Bitmap == null && image3Bitmap == null) {
+                                    progressBarHolder.setVisibility(View.GONE);
+                                    mDatabase.child("user").child(userId).setValue(user);
+                                    Intent intent = new Intent(EditProfileActivity.this, EditProfile2Activity.class);
+                                    intent.putExtra("userId", userId);
+                                    progressBarHolder.setVisibility(View.GONE);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
                     }
-                    StorageReference storageRef = storage.getReference();
-
-                    mDatabase.child("user").child(userId).setValue(user);
-
-
-                    StorageReference image1 = storageRef.child(userId+"/image1.jpg");
-                    image_1.setDrawingCacheEnabled(true);
-                    image_1.buildDrawingCache();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    image_1.getDrawingCache().compress(Bitmap.CompressFormat.JPEG, 20, baos);
-
-                    byte[] data = baos.toByteArray();
-                    UploadTask uploadTask = image1.putBytes(data);
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            Log.e(TAG,"FAILED UPLOAD image 1 : "+exception.getMessage());
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                            Log.d(TAG,"Success upload image 1");
-                        }
-                    });
-
-
-                    if (image2){
-                        StorageReference image2 = storageRef.child(userId+"/image2.jpg");
-                        image_2.setDrawingCacheEnabled(true);
-                        image_2.buildDrawingCache();
+                    if (image2Bitmap != null){
+                        StorageReference Storimage2 = storageRef.child(userId+"/image2.jpg");
                         ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-                        image_2.getDrawingCache().compress(Bitmap.CompressFormat.JPEG, 20, baos2);
+                        image2Bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos2);
 
                         byte[] data2 = baos2.toByteArray();
-                        UploadTask uploadTask2 = image2.putBytes(data2);
-                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                        UploadTask uploadTask2 = Storimage2.putBytes(data2);
+                        uploadTask2.addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 Log.e(TAG,"FAILED UPLOAD image 2: "+exception.getMessage());
@@ -197,24 +227,38 @@ public class EditProfileActivity extends AppCompatActivity {
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                                Log.d(TAG,"Success upload image 2");
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                String url = downloadUrl.toString();
+                                if (image2Bitmap != null){
+                                    if (user.getPictures().size() > 1) {
+                                        user.setPicturesAtIndex(1,new Picture("image2.jpg",url));
+                                    }
+                                    else {
+                                        user.addPicture(new Picture("image2.jpg", url));
+                                    }
+                                }
+
+                                if (image3Bitmap == null){
+                                    progressBarHolder.setVisibility(View.GONE);
+                                    mDatabase.child("user").child(userId).setValue(user);
+                                    Intent intent = new Intent(EditProfileActivity.this,EditProfile2Activity.class);
+                                    intent.putExtra("userId",userId);
+                                    progressBarHolder.setVisibility(View.GONE);
+                                    startActivity(intent);
+                                }
                             }
                         });
                     }
 
 
 
-                    if (image3){
-                        StorageReference image3 = storageRef.child(userId+"/image3.jpg");
-                        image_3.setDrawingCacheEnabled(true);
-                        image_3.buildDrawingCache();
+                    if (image3Bitmap != null){
+                        StorageReference Stoimage3 = storageRef.child(userId+"/image3.jpg");
                         ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
-                        image_3.getDrawingCache().compress(Bitmap.CompressFormat.JPEG, 20, baos3);
-
+                        image3Bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos3);
                         byte[] data3 = baos3.toByteArray();
-                        UploadTask uploadTask3 = image3.putBytes(data3);
-                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                        UploadTask uploadTask3 = Stoimage3.putBytes(data3);
+                        uploadTask3.addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 Log.e(TAG,"FAILED UPLOAD image 3: "+exception.getMessage());
@@ -222,8 +266,18 @@ public class EditProfileActivity extends AppCompatActivity {
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                                Log.d(TAG,"Success upload image 3");
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                String url = downloadUrl.toString();
+                                progressBarHolder.setVisibility(View.GONE);
+                                if (image3Bitmap != null){
+                                    if (user.getPictures().size() > 2) {
+                                        user.setPicturesAtIndex(2,new Picture("image3.jpg",url));
+                                    }
+                                    else {
+                                        user.addPicture(new Picture("image3.jpg", url));
+                                    }
+                                }
+                                mDatabase.child("user").child(userId).setValue(user);
                                 Intent intent = new Intent(EditProfileActivity.this,EditProfile2Activity.class);
                                 intent.putExtra("userId",userId);
                                 startActivity(intent);
@@ -340,14 +394,15 @@ public class EditProfileActivity extends AppCompatActivity {
                 Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
                 if (requestCode == PICK_PHOTO_FOR_1) {
                     image_1.setImageBitmap(bitmap);
+                    image1Bitmap = bitmap;
                 }
                 if (requestCode == PICK_PHOTO_FOR_2) {
                     image_2.setImageBitmap(bitmap);
-                    image2 = true;
+                    image2Bitmap = bitmap;
                 }
                 if (requestCode == PICK_PHOTO_FOR_3) {
                     image_3.setImageBitmap(bitmap);
-                    image3 = true;
+                    image3Bitmap = bitmap;
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

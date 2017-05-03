@@ -111,6 +111,10 @@ public class User {
         this.pictures.add(picture);
     }
 
+    public void setPicturesAtIndex(int index, Picture picture) {
+        this.pictures.set(index,picture);
+    }
+
     public void deletePicture(Picture picture) {
         this.pictures.remove(picture);
     }
