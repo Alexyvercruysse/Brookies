@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,7 +20,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import brookies.iut.com.brookies.adapter.ChatAdapter;
 import brookies.iut.com.brookies.model.Chat;
@@ -33,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
     private String userId;
+    private FirebaseListAdapter<Message> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,25 +85,29 @@ public class ChatActivity extends AppCompatActivity {
                 input.setText("");
             }
         });
-        mDatabase.child("room_messages/idchat1").addValueEventListener(new ValueEventListener() {
+
+        ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
+
+        adapter = new FirebaseListAdapter<Message>(this, Message.class,
+                R.layout.message, mDatabase.child("room_messages/idchat1")) {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Message chat1 = dataSnapshot.getValue(Message.class);
-                chat1.getContent();
-                Log.d("msg",(chat1.getContent()).toString());
+            protected void populateView(View v, Message model, int position) {
+                // Get references to the views of message.xml
+                TextView messageText = (TextView)v.findViewById(R.id.message_text);
+                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
+                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+
+                // Set their text
+                messageText.setText(model.getContent());
+                messageUser.setText(model.getAuthor());
+                DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                Date netDate = (new Date());
+                netDate.setTime(Long.parseLong(model.getDate()));
+                // Format the date before showing it
+                messageTime.setText(sdf.format(netDate));
             }
-            //ChatAdapter chatAdapter = new ChatAdapter(ChatActivity.this, chat.getMessages());
-             //  chatListView.setAdapter(chatAdapter);
+        };
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-        });
-
-
-
-
+        listOfMessages.setAdapter(adapter);
     }
 }

@@ -13,6 +13,9 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -33,7 +36,11 @@ import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import brookies.iut.com.brookies.model.Picture;
@@ -55,12 +62,13 @@ public class LoginActivity extends AppCompatActivity implements
     private DatabaseReference mDatabase;
     private String userId;
     private GoogleSignInAccount account;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance(); // Connexion FireBase
+        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         loginButtonGoogle = (Button) findViewById(R.id.login_button_google);
@@ -70,16 +78,18 @@ public class LoginActivity extends AppCompatActivity implements
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    userId = user.getUid();
-                    List<Picture> pictureList = new ArrayList<>();
-                    pictureList.add(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
-                    writeNewUser(userId,account.getGivenName(),account.getFamilyName(),account.getEmail(),
-                            "",0,"","","",
-                            pictureList);
-
+                FirebaseUser fireuser = firebaseAuth.getCurrentUser();
+                if (fireuser != null) {
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + fireuser.getUid());
+                    userId = fireuser.getUid();
+                    if (user != null) {
+                        writeNewUser(user);
+                    }
+                    else {
+                        Intent intent = new Intent(LoginActivity.this,EditProfileActivity.class);
+                        intent.putExtra("userId",userId);
+                        startActivity(intent);
+                    }
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
@@ -99,12 +109,42 @@ public class LoginActivity extends AppCompatActivity implements
         // Connexion Facebook
         callbackManager = CallbackManager.Factory.create();
 
-        loginButtonFacebbok.setReadPermissions("email", "public_profile");
+        loginButtonFacebbok.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday", "user_friends"));
         loginButtonFacebbok.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+
+                                // Application code
+                                try {
+
+                                    user = new User();
+                                    user.setBirthdate(object.getString("birthday"));
+                                    user.setFirstname(object.getString("first_name"));
+                                    user.setSexe(object.getString("gender"));
+                                    user.setLastname(object.getString("last_name"));
+                                    user.setEmail(object.getString("email"));
+                                    user.addPicture(new Picture("facebookphoto","https://graph.facebook.com/" + object.getString("id") + "/picture?type=large"));
+                                    user.setAge(0);
+                                    user.setHobbies("");
+                                    user.setDescription("");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,first_name,last_name,email,gender,birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
 
             }
 
@@ -135,10 +175,16 @@ public class LoginActivity extends AppCompatActivity implements
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void writeNewUser(String userId, String firstName, String lastName, String email, String gender, int age, String birthdate, String description, String hobbies, List<Picture> pictureList) {
-        User user = new User(firstName, lastName, email, gender, age, birthdate, description, hobbies,pictureList);
+    private void writeNewUser(User user) {
+        if (user.getPictures() == null){
+            user.addPicture(new Picture("failed","http://ajdeguzman.x10.mx/blog/wp-content/uploads/2015/10/facebook-android.jpg"));
+        }
         mDatabase.child("user").child(userId).setValue(user);
+
         Intent intent = new Intent(LoginActivity.this,ChatActivity.class);
+
+       // Intent intent = new Intent(LoginActivity.this,EditProfileActivity.class);
+        intent.putExtra("userId",userId);
         startActivity(intent);
     }
 
@@ -190,7 +236,28 @@ public class LoginActivity extends AppCompatActivity implements
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
+
                 account = result.getSignInAccount();
+
+                user = new User();
+                GoogleSignInAccount account = result.getSignInAccount();
+                user.setBirthdate("");
+                user.setDescription("");
+                if (account.getEmail() != null) {
+                    user.setEmail(account.getEmail());
+                }
+                if (account.getGivenName() != null){
+                    user.setFirstname(account.getGivenName());
+                }
+                if (account.getFamilyName() != null){
+                    user.setLastname(account.getFamilyName());
+                }
+                user.setHobbies("");
+                user.setSexe("");
+                if (account.getPhotoUrl() != null){
+                    user.addPicture(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
+                }
+                user.setAge(0);
                 firebaseAuthWithGoogle(account);
 
             } else {
