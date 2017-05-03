@@ -2,6 +2,7 @@ package brookies.iut.com.brookies.model;
 
 import android.media.Image;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +71,10 @@ public class User {
         this.sexe = sexe;
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public int getAge() {
         return age;
     }
@@ -103,6 +108,9 @@ public class User {
     }
 
     public void addPicture(Picture picture) {
+        if (pictures == null){
+            pictures = new ArrayList<>();
+        }
         this.pictures.add(picture);
     }
 
