@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -71,7 +73,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-
         mDatabase.child("user/"+userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -81,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String urlPictureProfilePath = user.getPictures().get(0).getUrl();
                 manSwitch.setChecked(user.getLikeMen());
                 womanSwitch.setChecked(user.getLikeWomen());
-                new LoadProfilePictureTask().execute(urlPictureProfilePath);
+                Picasso.with(getApplication()).load(user.getPictures().get(0).getUrl()).into(profileImage);
             }
 
             @Override
@@ -89,6 +90,19 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
 
+        });
+
+        manSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                user.setLikeMen(isChecked);
+                mDatabase.child("user/"+userId).setValue(user);
+            }
+        });
+        womanSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                user.setLikeWomen(isChecked);
+                mDatabase.child("user/"+userId).setValue(user);
+            }
         });
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
@@ -99,35 +113,5 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(editProfile);
             }
         });
-
     }
-
-
-    class LoadProfilePictureTask extends AsyncTask<String, Void, Bitmap> {
-        protected void onPreExecute() {
-        }
-
-        protected Bitmap doInBackground(String... urlPath) {
-            Bitmap myBitmap = null;
-            try {
-                URL url = new URL(urlPath[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                return myBitmap = BitmapFactory.decodeStream(input);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return myBitmap;
-        }
-
-
-        protected void onPostExecute(Bitmap result) {
-            profileImage.setImageBitmap(result);
-        }
-    }
-
 }
