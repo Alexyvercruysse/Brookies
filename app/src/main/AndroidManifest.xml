@@ -27,6 +27,7 @@
         <activity android:name=".LoginEmailActivity" />
         <activity android:name=".UserListActivity" />
         <activity android:name=".EditProfile2Activity"></activity>
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

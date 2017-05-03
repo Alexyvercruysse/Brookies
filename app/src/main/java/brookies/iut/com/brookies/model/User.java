@@ -1,6 +1,5 @@
 package brookies.iut.com.brookies.model;
 
-import android.media.Image;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,14 +20,17 @@ public class User {
     private String description;
     private String hobbies;
     private List<Picture> pictures;
-    private Boolean likesMen;
-    private Boolean likesWomen;
+    private Boolean likeMen;
+    private Boolean likeWomen;
+    private Boolean isPremium;
 
 
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String sexe,String birthdate, String description, String hobbies, List<Picture> pictures, Boolean likesMen, Boolean likesWomen) {
+    public User(String firstname, String lastname, String email,
+                String sexe, int age, String birthdate, String description, String hobbies, List<Picture> pictures,Boolean isPremium,Boolean likeMen,Boolean likeWomen) {
+
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -37,8 +39,9 @@ public class User {
         this.description = description;
         this.hobbies = hobbies;
         this.pictures = pictures;
-        this.likesMen = likesMen;
-        this.likesWomen = likesWomen;
+        this.isPremium = isPremium;
+        this.likeMen = likeMen;
+        this.likeWomen = likeWomen;
     }
 
     public String getFirstname() {
@@ -112,20 +115,27 @@ public class User {
         this.pictures.remove(picture);
     }
 
-
-    public Boolean getLikesMen() {
-        return likesMen;
+    public Boolean getIsPremium() {
+        return isPremium;
     }
 
-    public void setLikesMen(Boolean likesMen) {
-        this.likesMen = likesMen;
+    public void setIsPremium(Boolean isPremium) {
+        this.isPremium = isPremium;
     }
 
-    public Boolean getLikesWomen() {
-        return likesWomen;
+    public Boolean getLikeMen() {
+        return likeMen;
     }
 
-    public void setLikesWomen(Boolean likesWomen) {
-        this.likesWomen = likesWomen;
+    public void setLikeMen(Boolean likeMen) {
+        this.likeMen = likeMen;
+    }
+
+    public Boolean getLikeWomen() {
+        return likeWomen;
+    }
+
+    public void setLikeWomen(Boolean likeWomen) {
+        this.likeWomen = likeWomen;
     }
 }

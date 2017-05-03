@@ -144,8 +144,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     user.setFirstname(firstName.getText().toString());
                     user.setLastname(lastName.getText().toString());
                     user.setBirthdate(birthdate.getText().toString());
-                    user.setLikesMen(checkBoxMale.isChecked() ? true : false);
-                    user.setLikesWomen(checkBoxFemale.isChecked() ? true : false);
+                    user.setLikeMen(checkBoxMale.isChecked() ? true : false);
+                    user.setLikeWomen(checkBoxFemale.isChecked() ? true : false);
                     user.addPicture(new Picture("image1.jpg",userId+"/image1.jpg"));
                     if (image2){
                         user.addPicture(new Picture("image2.jpg",userId+"/image2.jpg"));

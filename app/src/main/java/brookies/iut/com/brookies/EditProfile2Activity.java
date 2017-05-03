@@ -1,5 +1,6 @@
 package brookies.iut.com.brookies;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -87,7 +88,9 @@ public class EditProfile2Activity extends AppCompatActivity {
                     user.setDescription(editTextDescription.getText().toString());
                     user.setHobbies(editTextHobbies.getText().toString());
                     mDatabase.child("user").child(userId).setValue(user);
-                    
+                    Intent intent = new Intent(EditProfile2Activity.this,ProfileActivity.class);
+                    intent.putExtra("userId",userId);
+                    startActivity(intent);
                 }
             }
         });

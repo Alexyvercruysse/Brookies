@@ -69,9 +69,9 @@ public class LoginActivity extends AppCompatActivity implements
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
         loginButtonGoogle = (Button) findViewById(R.id.login_button_google);
         loginButtonFacebbok = (LoginButton) findViewById(R.id.login_button_facebook);
+
 
         // Listener De connexion
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -134,8 +134,9 @@ public class LoginActivity extends AppCompatActivity implements
                                     user.addPicture(new Picture("facebookphoto","https://graph.facebook.com/" + object.getString("id") + "/picture?type=large"));
                                     user.setHobbies("");
                                     user.setDescription("");
-                                    user.setLikesMen(false);
-                                    user.setLikesWomen(false);
+                                    user.setLikeMen(false);
+                                    user.setLikeWomen(false);
+                                    user.setIsPremium(false);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -243,12 +244,13 @@ public class LoginActivity extends AppCompatActivity implements
                 }
                 user.setHobbies("");
                 user.setSexe("");
-                user.setLikesMen(false);
-                user.setLikesWomen(false);
+                user.setLikeMen(false);
+                user.setLikeWomen(false);
                 if (account.getPhotoUrl() != null){
                     user.addPicture(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
                 }
                 firebaseAuthWithGoogle(account);
+
 
             } else {
                 Toast.makeText(this,"Failed",Toast.LENGTH_LONG);
