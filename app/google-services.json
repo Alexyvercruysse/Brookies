@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "805005764072-67h721pn0nv48kejn961qtcll0mdloj8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "brookies.iut.com.brookies",
+            "certificate_hash": "e4c73b1554f0e67389815bf9e9546b0a2f517afd"
+          }
+        },
+        {
+          "client_id": "805005764072-6kb50jto8l08v1bnrm3vutt690pqe516.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "brookies.iut.com.brookies",
+            "certificate_hash": "be8a0478531152a414c635e572377b053c63f30a"
+          }
+        },
+        {
           "client_id": "805005764072-e5k7l53eh0brl8jqh3jlpr316k8ni0o3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -42,6 +58,13 @@
             {
               "client_id": "805005764072-79ppjseaueddikd2i4b3f13aegheh3fg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "805005764072-le1idmnk9e52ucpqpi33egaqjeo8evgi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.univ-lyon-1.brookies"
+              }
             }
           ]
         },
