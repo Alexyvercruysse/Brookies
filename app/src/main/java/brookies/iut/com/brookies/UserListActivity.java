@@ -67,7 +67,7 @@ public class UserListActivity extends AppCompatActivity {
             }
         };
         final HashMap<Map.Entry<String,RoomMetadata>, User> usersByRoom = new HashMap<Map.Entry<String,RoomMetadata>, User>();
-        final ArrayList<User> users = new ArrayList<>();
+
         final CustomList adapter = new CustomList(UserListActivity.this, users);
         ListView list = (ListView) findViewById(R.id.listViewUsers);
         list.setAdapter(adapter);
@@ -87,15 +87,17 @@ public class UserListActivity extends AppCompatActivity {
             }
         });
 
-        final List<String> myRooms = new ArrayList<>();
+
+
        //final List<UsersRoom> usersRooms = new ArrayList<UsersRoom>();
         FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-
+                ArrayList<User> users = new ArrayList<>();
+                final List<String> myRooms = new ArrayList<>();
+                final HashMap<String,RoomMetadata> roomList = new HashMap<String,RoomMetadata>();
                Iterable<DataSnapshot> usersRooms = dataSnapshot.child("users_room/"+userId).getChildren();
-        myRooms.clear();
+                myRooms.clear();
                // System.out.println("CHAT1: "+usersRooms.size());
                 for(DataSnapshot userRoom : usersRooms)
                 {
@@ -104,6 +106,63 @@ public class UserListActivity extends AppCompatActivity {
 
                 }
                 System.out.println("CHAT: "+myRooms.size());
+
+
+
+                Log.e("Count ", "" + dataSnapshot.child("room_metadata").getChildrenCount());
+                users.clear();
+                adapter.clear();
+                roomList.clear();
+                usersByRoom.clear();
+
+                Log.e("DEBUG:",users.size()+", "+adapter.userList.size()+", "+roomList.size());
+
+                for(String roomId : myRooms)
+                {
+                    RoomMetadata roomMeta = dataSnapshot.child("room_metadata/"+roomId).getValue(RoomMetadata.class);
+                    roomList.put(roomId,roomMeta);
+                }
+
+
+
+                //  List<String> otherUserIdList = new ArrayList<String>();
+
+
+                for (final Map.Entry<String,RoomMetadata> r : roomList.entrySet()) {
+                    for (final String id : r.getValue().getUsers()) {
+                        Log.e(userId, id);
+                        if (!id.equals(userId)) {
+                            User user = dataSnapshot.child("user/" + id).getValue(User.class);
+                            users.clear();
+
+                            adapter.clear();
+                            roomList.clear();
+                            Log.e("DEBUG2:",users.size()+", "+adapter.userList.size()+", "+roomList.size());
+                            Log.e(user.getFirstname(), r.getValue().getLastmessage());
+
+                            usersByRoom.put(r, user);
+
+
+                            // users = new ArrayList<>();
+
+
+                            Iterator<Map.Entry<Map.Entry<String,RoomMetadata>, User>> usersIterator = usersByRoom.entrySet().iterator();
+
+                            System.out.println("MAp SIZE: " + usersByRoom.size());
+                            users.clear();
+                            adapter.clear();
+                            while (usersIterator.hasNext()) {
+                                Map.Entry<Map.Entry<String,RoomMetadata>, User> entry = usersIterator.next();
+                                users.add(new User(entry.getValue().getFirstname(), entry.getValue().getLastname(), entry.getKey().getValue().getLastmessage()));
+                            }
+                            adapter.notifyDataSetChanged();
+
+                        }
+                    }
+                }
+
+
+
             }
 
             @Override
@@ -117,90 +176,9 @@ public class UserListActivity extends AppCompatActivity {
 
 
 
-        final HashMap<String,RoomMetadata> roomList = new HashMap<String,RoomMetadata>();
-
-        FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Log.e("Count ", "" + snapshot.child("room_metadata").getChildrenCount());
-                users.clear();
-                adapter.clear();
-                roomList.clear();
-                usersByRoom.clear();
-
-                Log.e("DEBUG:",users.size()+", "+adapter.userList.size()+", "+roomList.size());
-
-                for(String roomId : myRooms)
-                {
-                    RoomMetadata roomMeta = snapshot.child("room_metadata/"+roomId).getValue(RoomMetadata.class);
-                    roomList.put(roomId,roomMeta);
-                }
 
 
 
-                //  List<String> otherUserIdList = new ArrayList<String>();
-
-
-                for (final Map.Entry<String,RoomMetadata> r : roomList.entrySet()) {
-                    for (final String id : r.getValue().getUsers()) {
-                        Log.e(userId, id);
-                        if (!id.equals(userId)) {
-
-
-                            FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    User user = dataSnapshot.child("user/" + id).getValue(User.class);
-                                    users.clear();
-
-                                    adapter.clear();
-                                    roomList.clear();
-                                    Log.e("DEBUG2:",users.size()+", "+adapter.userList.size()+", "+roomList.size());
-                                    Log.e(user.getFirstname(), r.getValue().getLastmessage());
-
-                                    usersByRoom.put(r, user);
-
-
-                                    // users = new ArrayList<>();
-
-
-                                    Iterator<Map.Entry<Map.Entry<String,RoomMetadata>, User>> usersIterator = usersByRoom.entrySet().iterator();
-
-                                    System.out.println("MAp SIZE: " + usersByRoom.size());
-                                    users.clear();
-                                    adapter.clear();
-                                    while (usersIterator.hasNext()) {
-                                        Map.Entry<Map.Entry<String,RoomMetadata>, User> entry = usersIterator.next();
-                                        users.add(new User(entry.getValue().getFirstname(), entry.getValue().getLastname(), entry.getKey().getValue().getLastmessage()));
-                                    }
-                                    adapter.notifyDataSetChanged();
-
-       /* users.add(new User("Jean", "Pierre", "Coucou"));
-        users.add(new User("Martin", "Bernard", "Hell oMMM MMMWW WWW WWWWHell oMMM MMMMMMMMMW WWWWWWW"));
-        users.add(new User("Jean", "Pierre", "Coucou"));*/
-
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-                    }
-                }
-
-
-                adapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                Log.e("The read failed: ", firebaseError.getMessage());
-            }
-        });
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
