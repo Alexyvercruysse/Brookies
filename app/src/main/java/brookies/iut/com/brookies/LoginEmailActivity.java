@@ -89,14 +89,10 @@ public class LoginEmailActivity extends AppCompatActivity {
                             Toast.makeText(LoginEmailActivity.this, "Auth Failed",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
 
                 });
     }
-
-
 
     @Override
     public void onStart() {

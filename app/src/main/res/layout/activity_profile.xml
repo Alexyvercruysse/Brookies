@@ -64,7 +64,6 @@
                         android:layout_height="150dp"
                         android:layout_weight="1"
                         android:src="@drawable/profile"
-
                         android:layout_marginTop="34dp"/>
 
                     <android.support.design.widget.FloatingActionButton
@@ -79,15 +78,13 @@
 
 
             <TextView
-                android:id="@+id/tvFirstName"
+                android:id="@+id/tvName"
                 android:layout_marginTop="10dp"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:textSize="20dp"
-                android:text="Robin Turon-Lagot" />
+                android:textSize="20dp" />
 
         </LinearLayout>
 
