@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance(); // Connexion FireBase
+        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         loginButtonGoogle = (Button) findViewById(R.id.login_button_google);
@@ -236,12 +236,20 @@ public class LoginActivity extends AppCompatActivity implements
                 GoogleSignInAccount account = result.getSignInAccount();
                 user.setBirthdate("");
                 user.setDescription("");
-                user.setEmail(account.getEmail());
-                user.setFirstname(account.getGivenName());
-                user.setLastname(account.getFamilyName());
+                if (account.getEmail() != null) {
+                    user.setEmail(account.getEmail());
+                }
+                if (account.getGivenName() != null){
+                    user.setFirstname(account.getGivenName());
+                }
+                if (account.getFamilyName() != null){
+                    user.setLastname(account.getFamilyName());
+                }
                 user.setHobbies("");
                 user.setSexe("");
-                user.addPicture(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
+                if (account.getPhotoUrl() != null){
+                    user.addPicture(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
+                }
                 user.setAge(0);
                 firebaseAuthWithGoogle(account);
 
