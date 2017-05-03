@@ -12,7 +12,7 @@ import java.util.List;
 public class RoomMetadata {
 
     private List<String> users;
-    private String lastMessage;
+    private String lastmessage;
     private boolean unseen;
 
     public RoomMetadata() {
@@ -21,7 +21,7 @@ public class RoomMetadata {
 
     public RoomMetadata(List<String> users, String lastMessage, boolean unseen) {
         this.users = users;
-        this.lastMessage = lastMessage;
+        this.lastmessage = lastMessage;
         this.unseen = unseen;
     }
 
@@ -29,12 +29,12 @@ public class RoomMetadata {
         return users;
     }
 
-    public String getLastMessage() {
-        return lastMessage;
+    public String getLastmessage() {
+        return lastmessage;
     }
 
-    public void setLastMessage(String lastMessage) {
-        this.lastMessage = lastMessage;
+    public void setLastmessage(String lastmessage) {
+        this.lastmessage = lastmessage;
     }
 
     public boolean isUnseen() {

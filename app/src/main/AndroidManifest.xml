@@ -24,10 +24,9 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".LoginEmailActivity" />
         <activity android:name=".UserListActivity" />
-<<<<<<< HEAD
+
         <activity android:name=".ProfileActivity"></activity>
-=======
->>>>>>> EditProfile
+
     </application>
 
 </manifest>

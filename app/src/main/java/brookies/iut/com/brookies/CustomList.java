@@ -48,6 +48,9 @@ public class CustomList extends ArrayAdapter<User> {
         txtUserName.setText(userList.get(position).getFirstname() +" " + userList.get(position).getLastname() );
         txtUserDescrition.setText(userList.get(position).getDescription());
 
+
+
+
         return rowView;
     }
 
