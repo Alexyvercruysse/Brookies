@@ -132,9 +132,10 @@ public class LoginActivity extends AppCompatActivity implements
                                     user.setLastname(object.getString("last_name"));
                                     user.setEmail(object.getString("email"));
                                     user.addPicture(new Picture("facebookphoto","https://graph.facebook.com/" + object.getString("id") + "/picture?type=large"));
-                                    user.setAge(0);
                                     user.setHobbies("");
                                     user.setDescription("");
+                                    user.setLikesMen(false);
+                                    user.setLikesWomen(false);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -189,7 +190,6 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onStart() {
         super.onStart();
-        // Calcul l'état de connexion
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -211,10 +211,6 @@ public class LoginActivity extends AppCompatActivity implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -247,10 +243,11 @@ public class LoginActivity extends AppCompatActivity implements
                 }
                 user.setHobbies("");
                 user.setSexe("");
+                user.setLikesMen(false);
+                user.setLikesWomen(false);
                 if (account.getPhotoUrl() != null){
                     user.addPicture(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
                 }
-                user.setAge(0);
                 firebaseAuthWithGoogle(account);
 
             } else {

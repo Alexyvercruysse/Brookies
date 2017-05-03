@@ -17,26 +17,28 @@ public class User {
     private String lastname;
     private String email;
     private String sexe;
-    private int age;
     private String birthdate;
     private String description;
     private String hobbies;
     private List<Picture> pictures;
+    private Boolean likesMen;
+    private Boolean likesWomen;
 
 
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String sexe, int age, String birthdate, String description, String hobbies, List<Picture> pictures) {
+    public User(String firstname, String lastname, String email, String sexe,String birthdate, String description, String hobbies, List<Picture> pictures, Boolean likesMen, Boolean likesWomen) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.sexe = sexe;
-        this.age = age;
         this.birthdate = birthdate;
         this.description = description;
         this.hobbies = hobbies;
         this.pictures = pictures;
+        this.likesMen = likesMen;
+        this.likesWomen = likesWomen;
     }
 
     public String getFirstname() {
@@ -69,14 +71,6 @@ public class User {
 
     public void setSexe(String sexe) {
         this.sexe = sexe;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public int getAge() {
-        return age;
     }
 
     public String getBirthdate() {
@@ -116,5 +110,22 @@ public class User {
 
     public void deletePicture(Picture picture) {
         this.pictures.remove(picture);
+    }
+
+
+    public Boolean getLikesMen() {
+        return likesMen;
+    }
+
+    public void setLikesMen(Boolean likesMen) {
+        this.likesMen = likesMen;
+    }
+
+    public Boolean getLikesWomen() {
+        return likesWomen;
+    }
+
+    public void setLikesWomen(Boolean likesWomen) {
+        this.likesWomen = likesWomen;
     }
 }
