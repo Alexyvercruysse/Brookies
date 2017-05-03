@@ -76,22 +76,23 @@ public class ChatActivity extends AppCompatActivity {
                 DatabaseReference chat = mDatabase.child("room_messages").child("idchat1");
 
                 chat.push()
-                        .setValue(new Message(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(),
-                                input.getText().toString(),
-                                String.valueOf(System.currentTimeMillis() / 1000))
+                        .setValue(new Message(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString(),
+                                input.getText().toString(),System.currentTimeMillis())
                         );
 
                 // Clear the input
                 input.setText("");
             }
         });
-
         ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
 
         adapter = new FirebaseListAdapter<Message>(this, Message.class,
-                R.layout.message, mDatabase.child("room_messages/idchat1")) {
+                R.layout.message, mDatabase.child("room_messages/idchat1").orderByChild("date")) {
+
+
             @Override
             protected void populateView(View v, Message model, int position) {
+
                 // Get references to the views of message.xml
                 TextView messageText = (TextView)v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView)v.findViewById(R.id.message_user);
@@ -102,12 +103,12 @@ public class ChatActivity extends AppCompatActivity {
                 messageUser.setText(model.getAuthor());
                 DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
                 Date netDate = (new Date());
-                netDate.setTime(Long.parseLong(model.getDate()));
+                netDate.setTime(model.getDate());
+
                 // Format the date before showing it
                 messageTime.setText(sdf.format(netDate));
             }
         };
-
         listOfMessages.setAdapter(adapter);
     }
 }

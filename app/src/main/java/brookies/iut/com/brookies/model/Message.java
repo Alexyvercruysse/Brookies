@@ -6,18 +6,22 @@ package brookies.iut.com.brookies.model;
 
 public class Message {
 
+    private String idauthor;
     private String author;
     private String content;
-    private String date;
+    private Long date;
 
     public Message() {
     }
 
-    public Message(String author, String content, String date) {
+    public Message(String idauthor, String author ,String content, Long date) {
+        this.idauthor = idauthor;
         this.author = author;
         this.content = content;
         this.date = date;
     }
+
+    public String getIdauthor(){ return  idauthor;}
 
     public String getAuthor() {
         return author;
@@ -27,7 +31,7 @@ public class Message {
         return content;
     }
 
-    public String getDate() {
+    public Long getDate() {
         return date;
     }
 }
