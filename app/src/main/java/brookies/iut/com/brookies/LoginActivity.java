@@ -246,6 +246,7 @@ public class LoginActivity extends AppCompatActivity implements
                 user.setSexe("");
                 user.setLikeMen(false);
                 user.setLikeWomen(false);
+                user.setIsPremium(false);
                 if (account.getPhotoUrl() != null){
                     user.addPicture(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
                 }

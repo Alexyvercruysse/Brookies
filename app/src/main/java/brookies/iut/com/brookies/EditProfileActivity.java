@@ -49,13 +49,13 @@ import brookies.iut.com.brookies.model.User;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    ImageButton icon_checkprofile;
-    RadioButton radioButtonMale,radioButtonFemale;
-    CheckBox checkBoxMale,checkBoxFemale;
-    ImageView image_1,image_2,image_3;
-    EditText firstName,lastName,birthdate;
-    Bitmap image1Bitmap,image2Bitmap,image3Bitmap;
-    FrameLayout progressBarHolder;
+    private ImageButton icon_checkprofile;
+    private RadioButton radioButtonMale,radioButtonFemale;
+    private CheckBox checkBoxMale,checkBoxFemale;
+    private ImageView image_1,image_2,image_3;
+    private EditText firstName,lastName,birthdate;
+    private Bitmap image1Bitmap,image2Bitmap,image3Bitmap;
+    private FrameLayout progressBarHolder;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "EditProfileActivity";
@@ -74,7 +74,7 @@ public class EditProfileActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         progressBarHolder = (FrameLayout) findViewById(R.id.progressBarHolder);
-        progressBarHolder.setVisibility(View.GONE);
+        progressBarHolder.setVisibility(View.VISIBLE);
         userId = getIntent().getStringExtra("userId");
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -114,6 +114,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 if (user.getPictures().size() >= 3) {
                     Picasso.with(getApplication()).load(user.getPictures().get(2).getUrl()).into(image_3);
                 }
+                progressBarHolder.setVisibility(View.GONE);
 
             }
 
