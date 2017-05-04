@@ -3,6 +3,8 @@
     package="brookies.iut.com.brookies">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,9 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity" android:screenOrientation="portrait" >
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,11 +27,24 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".EditProfileActivity" android:screenOrientation="portrait"  />
-        <activity android:name=".LoginEmailActivity" android:screenOrientation="portrait"  />
-        <activity android:name=".UserListActivity" android:screenOrientation="portrait"  />
-        <activity android:name=".EditProfile2Activity" android:screenOrientation="portrait" />
-        <activity android:name=".ProfileActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginEmailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditProfile2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CandidateDetailActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
