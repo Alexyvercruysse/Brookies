@@ -58,6 +58,12 @@ public class EditProfile2Activity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 user = snapshot.getValue(User.class);
+                if (user.getDescription() != null && !user.getDescription().equals("")){
+                    editTextDescription.setText(user.getDescription());
+                }
+                if (user.getHobbies() != null && !user.getHobbies().equals("")){
+                    editTextHobbies.setText(user.getHobbies());
+                }
             }
 
             @Override

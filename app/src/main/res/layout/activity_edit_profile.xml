@@ -6,6 +6,24 @@
     android:background="@drawable/gradient"
     android:orientation="vertical">
 
+    <FrameLayout
+        android:id="@+id/progressBarHolder"
+        android:animateLayoutChanges="true"
+        android:visibility="gone"
+        android:alpha="0.4"
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,6 +90,9 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="10dp"
         android:hint="Last name"
+        android:maxLength="26"
+        android:maxLines="1"
+        android:singleLine="true"
         android:textColor="@color/cardview_light_background"
         android:textColorHint="@color/cardview_light_background" />
 
@@ -80,6 +101,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
+        android:maxLength="26"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
         android:layout_marginRight="25dp"
         android:layout_marginTop="10dp"
         android:hint="First Name"

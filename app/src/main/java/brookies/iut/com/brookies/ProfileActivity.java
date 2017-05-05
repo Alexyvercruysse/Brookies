@@ -77,7 +77,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 user = snapshot.getValue(User.class);
-                Log.d("", user.getFirstname());
                 tvNameProfile.setText(user.getFirstname() + " " + user.getLastname());
                 String urlPictureProfilePath = user.getPictures().get(0).getUrl();
                 manSwitch.setChecked(user.getLikeMen());

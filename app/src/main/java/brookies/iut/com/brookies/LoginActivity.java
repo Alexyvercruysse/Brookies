@@ -247,6 +247,7 @@ Intent intent = new Intent(this,CandidateDetailActivity.class);
                 user.setSexe("");
                 user.setLikeMen(false);
                 user.setLikeWomen(false);
+                user.setIsPremium(false);
                 if (account.getPhotoUrl() != null){
                     user.addPicture(new Picture(account.getGivenName()+"_photo",account.getPhotoUrl().toString()));
                 }
