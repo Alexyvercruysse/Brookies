@@ -86,144 +86,147 @@
             android:textSize="20dp" />
     </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:textSize="14dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:textStyle="bold"
-            android:text="Je suis interessé par :" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@color/salmon" />
-
-        <RelativeLayout
+        android:background="@color/white">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="29dp"
-                android:text="Homme"/>
+                android:layout_gravity="left"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"
+                android:text="Je suis interessé par :" />
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/man_switch"
+            <View
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/salmon" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="29dp"
+                    android:text="Homme"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/man_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="29dp"
+                    android:text="Femme"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/woman_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="29dp"
-                android:text="Femme"/>
+                android:layout_gravity="left"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="13dp"
+                android:textStyle="bold"
+                android:text="Sécurité :" />
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/woman_switch"
+            <View
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/salmon" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:textSize="14dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="13dp"
-            android:textStyle="bold"
-            android:text="Sécurité :" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@color/salmon" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="29dp"
+                    android:textStyle="bold"
+                    android:text="Connexion par empreinte :"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/fingerprint_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="13dp"
+                android:textStyle="bold"
+                android:text="Premium :" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/salmon" />
+
+            <TextView
+                android:id="@+id/isPremium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="29dp"
                 android:textStyle="bold"
-                android:text="Connexion par empreinte :"/>
+                android:text="Abonnez-vous pour discuter avec plus de monde"/>
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/fingerprint_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+            <Button
+                android:id="@+id/btnCall"
+                android:layout_margin="15dp"
+                android:text="En savoir plus"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:layout_gravity="right"
+                android:layout_width="134dp"
+                android:layout_height="36dp"
+                android:background="@color/salmon" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:textSize="14dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="13dp"
-            android:textStyle="bold"
-            android:text="Premium :" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@color/salmon" />
-
-        <TextView
-            android:id="@+id/isPremium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="29dp"
-            android:textStyle="bold"
-            android:text="Abonnez-vous pour discuter avec plus de monde"/>
-
-        <Button
-            android:id="@+id/btnCall"
-            android:layout_margin="15dp"
-            android:text="En savoir plus"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:layout_gravity="right"
-            android:layout_width="134dp"
-            android:layout_height="36dp"
-            android:background="@color/salmon" />
-
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
-
 

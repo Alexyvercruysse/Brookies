@@ -66,8 +66,6 @@ public class LoginActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-Intent intent = new Intent(this,CandidateDetailActivity.class);
-        startActivity(intent);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         loginButtonGoogle = (Button) findViewById(R.id.login_button_google);

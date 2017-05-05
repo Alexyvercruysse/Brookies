@@ -41,6 +41,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+import brookies.iut.com.brookies.model.Picture;
 import brookies.iut.com.brookies.model.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -57,19 +58,22 @@ public class CandidateDetailActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvAge;
     private TextView tvDescription;
+    private TextView tvHobbies;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_detail);
+        userId = getIntent().getStringExtra("userId");
 
         sliderShow = (SliderLayout) findViewById(R.id.slider);
         tvName = (TextView) findViewById(R.id.tvName);
         tvAge = (TextView) findViewById(R.id.tvAge);
         tvDescription = (TextView) findViewById(R.id.tvDescription);
+        tvHobbies = (TextView) findViewById(R.id.tvHobbies);
 
-
+        sliderShow.setPresetTransformer(SliderLayout.Transformer.Default);
 
         mAuth = FirebaseAuth.getInstance(); // Connexion FireBase
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -86,18 +90,20 @@ public class CandidateDetailActivity extends AppCompatActivity {
             }
         };
 
-        mDatabase.child("user/PSgOMpkputeiPpRp4ppWsSAJjcM2").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("user/"+userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 user = snapshot.getValue(User.class);
                 tvName.setText(user.getFirstname() + " " + user.getLastname() +", ");
+                tvAge.setText(getAge(user.getBirthdate()));
+                tvDescription.setText(user.getDescription());
+                tvHobbies.setText(user.getHobbies());
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.get(Calendar.YEAR);
-                String age = user.getBirthdate();
-                //tvAge.setText(user.get);
-
-           //     Picasso.with(getApplication()).load(user.getPictures().get(0).getUrl()).into(profileImage);
+                for(Picture picture : user.getPictures()){
+                    DefaultSliderView defaultSliderView = new DefaultSliderView(CandidateDetailActivity.this);
+                    defaultSliderView.image(picture.getUrl());
+                    sliderShow.addSlider(defaultSliderView);
+                }
             }
 
             @Override
@@ -106,21 +112,6 @@ public class CandidateDetailActivity extends AppCompatActivity {
             }
 
         });
-
-
-
-
-        DefaultSliderView defaultSliderView = new DefaultSliderView(this);
-        defaultSliderView
-                .image("http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-
-        DefaultSliderView defaultSliderView2 = new DefaultSliderView(this);
-        defaultSliderView2
-                .image("https://lh6.googleusercontent.com/-CkxB35ot8bI/AAAAAAAAAAI/AAAAAAAAAAA/AHalGhqYUjgdy-6umTwVV1chIiPi7W2YCg/s96-c/photo.jpg");
-
-
-        sliderShow.addSlider(defaultSliderView);
-        sliderShow.addSlider(defaultSliderView2);
 
     }
 
@@ -131,7 +122,12 @@ public class CandidateDetailActivity extends AppCompatActivity {
     }
 
 
-    private String getAge(int year, int month, int day){
+    private String getAge(String birthDate){
+        String[] birthDateSeparated = birthDate.split("/");
+        
+        int year = Integer.parseInt(birthDateSeparated[2]);
+        int month= Integer.parseInt(birthDateSeparated[1]);
+        int day= Integer.parseInt(birthDateSeparated[0]);
         Calendar dob = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
 
