@@ -12,6 +12,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
     private SwitchCompat womanSwitch;
     private User user;
     private FloatingActionButton editProfileButton;
+    private ImageView ivPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         editProfileButton = (FloatingActionButton) findViewById(R.id.editProfileFloatingButton);
         profileImage = (CircleImageView) findViewById(R.id.profile_image);
+        ivPic = (ImageView) findViewById(R.id.ivPic);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -72,6 +75,15 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         };
+
+        ivPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this,MainMatch.class);
+                intent.putExtra("userId",userId);
+                startActivity(intent);
+            }
+        });
 
         mDatabase.child("user/"+userId).addValueEventListener(new ValueEventListener() {
             @Override

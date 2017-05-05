@@ -75,7 +75,7 @@ public class EditProfile2Activity extends AppCompatActivity {
         checkProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (editTextDescription.getText().toString().equals("") || editTextHobbies.getText().toString().equals("")){
+                if (editTextDescription.getText().toString() == null && editTextDescription.getText().toString().equals("") || editTextHobbies.getText().toString() == null && editTextHobbies.getText().toString().equals("")){
                     if (editTextDescription.getText().toString().equals("")){
                         editTextDescription.setError("Need a description");
                     }
