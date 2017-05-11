@@ -39,7 +39,7 @@
         custom:auto_cycle="true"
         custom:indicator_visibility="visible"
         custom:pager_animation_span="1100"
-        android:layout_height="350dp"/>
+        android:layout_height="400dp"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
