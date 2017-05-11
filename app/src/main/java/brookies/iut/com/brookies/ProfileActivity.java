@@ -1,22 +1,19 @@
 package brookies.iut.com.brookies;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,17 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import brookies.iut.com.brookies.model.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private static final String txtIsPremium = "Votre abonnement premium est actif";
+    private static final String txtIsNotPremium = "Abonnez-vous pour discuter avec plus de monde";
 
     private static final String TAG = "ProfileActivity";
     private FirebaseAuth mAuth;
@@ -47,6 +40,8 @@ public class ProfileActivity extends AppCompatActivity {
     private SwitchCompat womanSwitch;
     private User user;
     private FloatingActionButton editProfileButton;
+    private Button premiumButton;
+    private TextView tvPremium;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +55,8 @@ public class ProfileActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         editProfileButton = (FloatingActionButton) findViewById(R.id.editProfileFloatingButton);
         profileImage = (CircleImageView) findViewById(R.id.profile_image);
+        premiumButton = (Button) findViewById(R.id.btnPremium);
+        tvPremium = (TextView) findViewById(R.id.act_profile_tv_premium);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -82,6 +79,15 @@ public class ProfileActivity extends AppCompatActivity {
                 manSwitch.setChecked(user.getLikeMen());
                 womanSwitch.setChecked(user.getLikeWomen());
                 Picasso.with(getApplication()).load(user.getPictures().get(0).getUrl()).into(profileImage);
+                if(user.getIsPremium()){
+                    premiumButton.setEnabled(false);
+                    premiumButton.setBackgroundColor(getResources().getColor(R.color.charcoal_grey));
+                    tvPremium.setText(txtIsPremium);
+                } else {
+                    premiumButton.setEnabled(true);
+                    premiumButton.setBackgroundColor(getResources().getColor(R.color.salmon));
+                    tvPremium.setText(txtIsNotPremium);
+                }
             }
 
             @Override
@@ -112,5 +118,18 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(editProfile);
             }
         });
+
+
+        premiumButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentPremium = new Intent(ProfileActivity.this, PaymentActivity.class);
+                intentPremium.putExtra("userId", userId);
+                startActivity(intentPremium);
+            }
+        });
+
     }
+
+
 }
