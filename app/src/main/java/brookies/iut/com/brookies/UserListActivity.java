@@ -99,7 +99,7 @@ public class UserListActivity extends AppCompatActivity {
                // System.out.println("CHAT1: "+usersRooms.size());
                 for(DataSnapshot userRoom : usersRooms)
                 {
-
+                        System.out.println("add "+ userRoom.getValue());
                         myRooms.add((String)userRoom.getValue());
 
                 }
@@ -128,13 +128,16 @@ public class UserListActivity extends AppCompatActivity {
                 roomList.clear();
                 usersByRoom.clear();
 
-                Log.e("DEBUG:",users.size()+", "+adapter.userList.size()+", "+roomList.size());
+
+                Log.e("DEBUG:",users.size()+", "+adapter.userList.size()+", "+roomList.size()+", "+myRooms.size());
 
                 for(String roomId : myRooms)
                 {
                     RoomMetadata roomMeta = snapshot.child("room_metadata/"+roomId).getValue(RoomMetadata.class);
                     roomList.put(roomId,roomMeta);
+
                 }
+
 
 
 
@@ -142,6 +145,7 @@ public class UserListActivity extends AppCompatActivity {
 
 
                 for (final Map.Entry<String,RoomMetadata> r : roomList.entrySet()) {
+                    System.out.println("ROOM USERS: "+r.getValue().getUsers().size());
                     for (final String id : r.getValue().getUsers()) {
                         Log.e(userId, id);
                         if (!id.equals(userId)) {
@@ -173,6 +177,7 @@ public class UserListActivity extends AppCompatActivity {
                                         Map.Entry<Map.Entry<String,RoomMetadata>, User> entry = usersIterator.next();
                                         users.add(new User(entry.getValue().getFirstname(), entry.getValue().getLastname(), entry.getKey().getValue().getLastmessage()));
                                     }
+
                                     adapter.notifyDataSetChanged();
 
        /* users.add(new User("Jean", "Pierre", "Coucou"));
