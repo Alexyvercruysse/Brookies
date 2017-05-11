@@ -11,7 +11,7 @@ public class UserMatchs {
     HashMap<String, Boolean> userMatches;
 
     public UserMatchs() {
-        userMatches = new HashMap<>();
+        this.userMatches = new HashMap<>();
     }
 
     public UserMatchs(HashMap<String, Boolean> userMatches) {
@@ -19,7 +19,7 @@ public class UserMatchs {
     }
 
     public HashMap<String, Boolean> getUserMatches() {
-        return userMatches;
+        return this.userMatches;
     }
 
     /**
@@ -38,4 +38,8 @@ public class UserMatchs {
     public boolean isMatched(String idUser){
         return userMatches.containsKey(idUser);
     }
+
+
+
+
 }
