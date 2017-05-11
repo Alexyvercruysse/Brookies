@@ -114,7 +114,7 @@ public class UserListActivity extends AppCompatActivity {
 
 
 
-
+        final  ArrayList<ValueEventListener> events = new ArrayList<ValueEventListener>();
 
 
         final HashMap<String,RoomMetadata> roomList = new HashMap<String,RoomMetadata>();
@@ -143,6 +143,15 @@ public class UserListActivity extends AppCompatActivity {
 
                 //  List<String> otherUserIdList = new ArrayList<String>();
 
+              if(events.size()>0)
+              {
+
+                  for(ValueEventListener event : events)
+                  {
+                      FirebaseDatabase.getInstance().getReference().removeEventListener(event);
+                  }
+
+              }
 
                 for (final Map.Entry<String,RoomMetadata> r : roomList.entrySet()) {
                     System.out.println("ROOM USERS: "+r.getValue().getUsers().size());
@@ -151,7 +160,7 @@ public class UserListActivity extends AppCompatActivity {
                         if (!id.equals(userId)) {
 
 
-                            FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
+                          ValueEventListener event =  FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     User user = dataSnapshot.child("user/" + id).getValue(User.class);
@@ -192,6 +201,8 @@ public class UserListActivity extends AppCompatActivity {
 
                                 }
                             });
+                            events.add(event);
+                           //
                         }
                     }
                 }
