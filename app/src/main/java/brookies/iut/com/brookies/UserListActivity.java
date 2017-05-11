@@ -184,7 +184,7 @@ public class UserListActivity extends AppCompatActivity {
                                     adapter.clear();
                                     while (usersIterator.hasNext()) {
                                         Map.Entry<Map.Entry<String,RoomMetadata>, User> entry = usersIterator.next();
-                                        users.add(new User(entry.getValue().getFirstname(), entry.getValue().getLastname(), entry.getKey().getValue().getLastmessage()));
+                                        users.add(new User(entry.getValue().getFirstname(), entry.getValue().getLastname(), entry.getKey().getValue().getLastmessage(),entry.getValue().getPictures()));
                                     }
 
                                     adapter.notifyDataSetChanged();
