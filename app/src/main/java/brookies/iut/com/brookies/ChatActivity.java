@@ -71,6 +71,10 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText input = (EditText) findViewById(R.id.input);
 
+                if (input.equals("")) {
+                    return;
+                }
+
                 // Read the input field and push a new instance
                 // of ChatMessage to the Firebase database
                 DatabaseReference chat = mDatabase.child("room_messages").child("idchat1");
@@ -89,26 +93,26 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new FirebaseListAdapter<Message>(this, Message.class,
                 R.layout.message, mDatabase.child("room_messages/idchat1").orderByChild("date")) {
 
-
             @Override
             protected void populateView(View v, Message model, int position) {
 
                 // Get references to the views of message.xml
                 TextView messageText = (TextView)v.findViewById(R.id.message_text);
-                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
-                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+                //TextView messageUser = (TextView)v.findViewById(R.id.message_user);
+                //TextView messageTime = (TextView)v.findViewById(R.id.message_time);
 
                 // Set their text
                 messageText.setText(model.getContent());
-                messageUser.setText(model.getAuthor());
+                //messageUser.setText(model.getAuthor());
                 DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
                 Date netDate = (new Date());
                 netDate.setTime(model.getDate());
 
                 // Format the date before showing it
-                messageTime.setText(sdf.format(netDate));
+               //messageTime.setText(sdf.format(netDate));
             }
         };
         listOfMessages.setAdapter(adapter);
+        listOfMessages.requestFocus();
     }
 }

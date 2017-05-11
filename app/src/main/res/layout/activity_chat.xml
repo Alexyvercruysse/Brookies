@@ -17,6 +17,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         app:fabSize="mini"
+        android:background="@color/white"
         android:layout_alignParentRight="true" />
 
     <android.support.design.widget.TextInputLayout
@@ -45,5 +46,6 @@
         android:divider="@android:color/transparent"
         android:id="@+id/list_of_messages"
         android:layout_marginBottom="16dp"
+        android:layout_marginTop="60dp"
         android:layout_alignParentLeft="true" />
 </RelativeLayout>
