@@ -43,10 +43,12 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        final String idchat = getIntent().getStringExtra("idchat");
+
         mAuth = FirebaseAuth.getInstance(); // Connexion FireBase
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        DatabaseReference chat = mDatabase.child("room_messages").child("idchat1");
+        DatabaseReference chat = mDatabase.child("room_messages").child(idchat);
 
 
         // Listener De connexion
@@ -77,7 +79,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 // Read the input field and push a new instance
                 // of ChatMessage to the Firebase database
-                DatabaseReference chat = mDatabase.child("room_messages").child("idchat1");
+                DatabaseReference chat = mDatabase.child("room_messages").child(idchat);
 
                 chat.push()
                         .setValue(new Message(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toString(),
@@ -91,7 +93,7 @@ public class ChatActivity extends AppCompatActivity {
         ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
 
         adapter = new FirebaseListAdapter<Message>(this, Message.class,
-                R.layout.message, mDatabase.child("room_messages/idchat1").orderByChild("date")) {
+                R.layout.message, mDatabase.child("room_messages/"+ idchat).orderByChild("date")) {
 
             @Override
             protected void populateView(View v, Message model, int position) {

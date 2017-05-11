@@ -10,9 +10,20 @@
 
     tools:showIn="@layout/activity_user_list"
     >
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
     <ListView
-        android:id="@+id/listViewEnseignes"
+        android:background="#FFFFFF"
+        android:id="@+id/listViewUsers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="400dp"
+        android:divider="#ff7a68"
+        android:dividerHeight="1dp"
+        android:footerDividersEnabled="false"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="13dp"
+        />
+</LinearLayout>
 </RelativeLayout>

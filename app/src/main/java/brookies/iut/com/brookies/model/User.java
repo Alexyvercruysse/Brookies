@@ -1,10 +1,10 @@
 package brookies.iut.com.brookies.model;
 
-import android.media.Image;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import static android.os.Build.ID;
 
 /**
  * Created by iem on 29/03/2017.
@@ -37,6 +37,18 @@ public class User {
         this.description = description;
         this.hobbies = hobbies;
         this.pictures = pictures;
+    }
+
+
+    public User(String firstname, String lastname, String description,List<Picture> pictures) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.description = description;
+        this.pictures=pictures;
+    }
+
+    public String getID() {
+        return ID;
     }
 
     public String getFirstname() {

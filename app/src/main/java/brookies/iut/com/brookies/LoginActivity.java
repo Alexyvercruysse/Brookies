@@ -1,9 +1,9 @@
 package brookies.iut.com.brookies;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +15,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -32,16 +31,13 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import brookies.iut.com.brookies.model.Picture;
 import brookies.iut.com.brookies.model.User;
@@ -68,11 +64,16 @@ public class LoginActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         mAuth = FirebaseAuth.getInstance();
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
 
         loginButtonGoogle = (Button) findViewById(R.id.login_button_google);
         loginButtonFacebbok = (LoginButton) findViewById(R.id.login_button_facebook);
+
 
         // Listener De connexion
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -86,7 +87,8 @@ public class LoginActivity extends AppCompatActivity implements
                         writeNewUser(user);
                     }
                     else {
-                        Intent intent = new Intent(LoginActivity.this,EditProfileActivity.class);
+                       //Intent intent = new Intent(LoginActivity.this,EditProfileActivity.class);
+                        Intent intent = new Intent(LoginActivity.this,UserListActivity.class);
                         intent.putExtra("userId",userId);
                         startActivity(intent);
                     }
@@ -97,6 +99,7 @@ public class LoginActivity extends AppCompatActivity implements
         };
 
 
+       
 
         loginButtonGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,9 +184,7 @@ public class LoginActivity extends AppCompatActivity implements
         }
         mDatabase.child("user").child(userId).setValue(user);
 
-        Intent intent = new Intent(LoginActivity.this,ChatActivity.class);
-
-       // Intent intent = new Intent(LoginActivity.this,EditProfileActivity.class);
+        Intent intent = new Intent(LoginActivity.this,UserListActivity.class);
         intent.putExtra("userId",userId);
         startActivity(intent);
     }

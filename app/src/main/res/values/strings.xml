@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Brookies</string>
     <string name="facebook_app_id">1113423912100851</string>
+    <string name="messages">Vos messages</string>
 </resources>
