@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="260dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -63,8 +63,7 @@
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         android:layout_weight="1"
-                        android:src="@drawable/profile"
-                        android:layout_marginTop="34dp"/>
+                        android:layout_gravity="center" />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/editProfileFloatingButton"
@@ -75,160 +74,157 @@
                 </FrameLayout>
 
             </RelativeLayout>
-
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:textSize="20dp" />
-
         </LinearLayout>
-
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="13dp"
+            android:textSize="20dp" />
     </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:textSize="14dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:textStyle="bold"
-            android:text="Je suis interessé par :" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@color/salmon" />
-
-        <RelativeLayout
+        android:background="@color/white">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="29dp"
-                android:text="Homme"/>
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/man_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="29dp"
-                android:text="Femme"/>
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/woman_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:textSize="14dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="13dp"
-            android:textStyle="bold"
-            android:text="Sécurité :" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@color/salmon" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="29dp"
+                android:layout_gravity="left"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
                 android:textStyle="bold"
-                android:text="Connexion par empreinte :"/>
+                android:text="Je suis interessé par :" />
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/fingerprint_switch"
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/salmon" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="29dp"
+                    android:text="Homme"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/man_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="29dp"
+                    android:text="Femme"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/woman_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+                android:layout_gravity="left"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="13dp"
+                android:textStyle="bold"
+                android:text="Sécurité :" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:textSize="14dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="13dp"
-            android:textStyle="bold"
-            android:text="Premium :" />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/salmon" />
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@color/salmon" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/act_profile_tv_premium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="29dp"
-            android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="29dp"
+                    android:textStyle="bold"
+                    android:text="Connexion par empreinte :"/>
 
-        <Button
-            android:id="@+id/btnPremium"
-            android:layout_margin="15dp"
-            android:text="Premium"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:layout_gravity="right"
-            android:layout_width="134dp"
-            android:layout_height="36dp"
-            android:background="@color/salmon" />
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/fingerprint_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="13dp"
+                android:textStyle="bold"
+                android:text="Premium :" />
 
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/salmon" />
+
+            <TextView
+                android:id="@+id/act_profile_tv_premium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="29dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPremium"
+                android:layout_margin="15dp"
+                android:text="Premium"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:layout_gravity="right"
+                android:layout_width="134dp"
+                android:layout_height="36dp"
+                android:background="@color/salmon" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
-
-
